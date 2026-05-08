@@ -1,5 +1,5 @@
 // Change this to your deployed backend URL when hosting
-var API_BASE_URL = "http://localhost:3000";
+var API_BASE_URL = "https://school-management-v79z.onrender.com";
 
 // ---- Add School ----
 async function addSchool() {
