@@ -1,5 +1,7 @@
 const mysql = require("mysql2");
 require("dotenv").config();
+const fs = require("fs");
+const path = require("path");
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -8,7 +10,8 @@ const pool = mysql.createPool({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   ssl: {
-    rejectUnauthorized: false // Aiven uses self-signed certs; set to true + provide CA in production
+    ca: fs.readFileSync(path.join(__dirname, "../certs/ca.pem")),
+    rejectUnauthorized: true // Aiven uses self-signed certs; set to true + provide CA in production
   },
   waitForConnections: true,
   connectionLimit: 10,
