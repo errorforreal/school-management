@@ -8,7 +8,7 @@
   "variable": [
     {
       "key": "base_url",
-      "value": "http://localhost:3000",
+      "value": "https://school-management-v79z.onrender.com",
       "type": "string",
       "description": "Change this to your deployed API URL"
     }
