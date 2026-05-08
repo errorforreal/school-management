@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>School Management System</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>🏫 School Management System</h1>
+    <p>Add schools and find the nearest ones to you</p>
+  </header>
+
+  <main>
+
+    <!-- Add School Section -->
+    <section class="card" id="add-school-section">
+      <h2>Add a New School</h2>
+      <div class="form-group">
+        <label for="school-name">School Name</label>
+        <input type="text" id="school-name" placeholder="e.g. Delhi Public School" />
+      </div>
+      <div class="form-group">
+        <label for="school-address">Address</label>
+        <input type="text" id="school-address" placeholder="e.g. Mathura Road, New Delhi" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="school-lat">Latitude</label>
+          <input type="number" id="school-lat" placeholder="e.g. 28.5355" step="any" />
+        </div>
+        <div class="form-group">
+          <label for="school-lon">Longitude</label>
+          <input type="number" id="school-lon" placeholder="e.g. 77.2510" step="any" />
+        </div>
+      </div>
+      <button id="add-school-btn" onclick="addSchool()">Add School</button>
+      <div id="add-response" class="response-box hidden"></div>
+    </section>
+
+    <!-- List Schools Section -->
+    <section class="card" id="list-schools-section">
+      <h2>Find Schools Near You</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="user-lat">Your Latitude</label>
+          <input type="number" id="user-lat" placeholder="e.g. 28.6139" step="any" />
+        </div>
+        <div class="form-group">
+          <label for="user-lon">Your Longitude</label>
+          <input type="number" id="user-lon" placeholder="e.g. 77.2090" step="any" />
+        </div>
+      </div>
+      <div class="btn-row">
+        <button id="list-schools-btn" onclick="listSchools()">Search Schools</button>
+        <button class="btn-secondary" onclick="useMyLocation()">📍 Use My Location</button>
+      </div>
+      <div id="list-response" class="response-box hidden"></div>
+
+      <!-- Schools Table -->
+      <div id="schools-table-wrapper" class="hidden">
+        <h3>Results <span id="school-count"></span></h3>
+        <table id="schools-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>School Name</th>
+              <th>Address</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Distance</th>
+            </tr>
+          </thead>
+          <tbody id="schools-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>School Management API &mdash; Node.js + Express + MySQL</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
