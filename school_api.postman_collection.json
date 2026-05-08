@@ -1,0 +1,207 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "School Management API",
+    "description": "Postman collection for School Management API - Add School and List Schools endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string",
+      "description": "Change this to your deployed API URL"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        },
+        "description": "Check if the API server is running."
+      },
+      "response": [
+        {
+          "name": "API Running",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"message\": \"API is running!\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Add School",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Delhi Public School\",\n  \"address\": \"Mathura Road, New Delhi, Delhi 110019\",\n  \"latitude\": 28.5355,\n  \"longitude\": 77.2510\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/addSchool",
+          "host": ["{{base_url}}"],
+          "path": ["addSchool"]
+        },
+        "description": "Add a new school to the database. All fields are required."
+      },
+      "response": [
+        {
+          "name": "School Added Successfully",
+          "status": "Created",
+          "code": 201,
+          "body": "{\n  \"success\": true,\n  \"message\": \"School added successfully\",\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Delhi Public School\",\n    \"address\": \"Mathura Road, New Delhi, Delhi 110019\",\n    \"latitude\": 28.5355,\n    \"longitude\": 77.251\n  }\n}"
+        },
+        {
+          "name": "Validation Error - Missing Field",
+          "status": "Bad Request",
+          "code": 400,
+          "body": "{\n  \"success\": false,\n  \"message\": \"All fields are required: name, address, latitude, longitude\"\n}"
+        },
+        {
+          "name": "Validation Error - Invalid Latitude",
+          "status": "Bad Request",
+          "code": 400,
+          "body": "{\n  \"success\": false,\n  \"message\": \"Latitude must be a number between -90 and 90\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Add School - Another Sample",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Kendriya Vidyalaya Andrews Ganj\",\n  \"address\": \"Andrews Ganj, New Delhi, Delhi 110049\",\n  \"latitude\": 28.5679,\n  \"longitude\": 77.2090\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/addSchool",
+          "host": ["{{base_url}}"],
+          "path": ["addSchool"]
+        },
+        "description": "Add another sample school."
+      },
+      "response": []
+    },
+    {
+      "name": "List Schools - Near Connaught Place Delhi",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/listSchools?latitude=28.6315&longitude=77.2167",
+          "host": ["{{base_url}}"],
+          "path": ["listSchools"],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "28.6315",
+              "description": "User's latitude (Connaught Place, Delhi)"
+            },
+            {
+              "key": "longitude",
+              "value": "77.2167",
+              "description": "User's longitude (Connaught Place, Delhi)"
+            }
+          ]
+        },
+        "description": "Fetch all schools sorted by distance from the given coordinates. Uses the Haversine formula."
+      },
+      "response": [
+        {
+          "name": "Schools List - Sorted by Distance",
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"success\": true,\n  \"message\": \"Schools fetched successfully\",\n  \"total\": 2,\n  \"data\": [\n    {\n      \"id\": 2,\n      \"name\": \"Kendriya Vidyalaya Andrews Ganj\",\n      \"address\": \"Andrews Ganj, New Delhi, Delhi 110049\",\n      \"latitude\": 28.5679,\n      \"longitude\": 77.209,\n      \"distance_km\": 7.12\n    },\n    {\n      \"id\": 1,\n      \"name\": \"Delhi Public School\",\n      \"address\": \"Mathura Road, New Delhi, Delhi 110019\",\n      \"latitude\": 28.5355,\n      \"longitude\": 77.251,\n      \"distance_km\": 10.77\n    }\n  ]\n}"
+        },
+        {
+          "name": "Missing Parameters Error",
+          "status": "Bad Request",
+          "code": 400,
+          "body": "{\n  \"success\": false,\n  \"message\": \"Query parameters latitude and longitude are required\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "List Schools - Near Mumbai",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/listSchools?latitude=19.0760&longitude=72.8777",
+          "host": ["{{base_url}}"],
+          "path": ["listSchools"],
+          "query": [
+            {
+              "key": "latitude",
+              "value": "19.0760",
+              "description": "User's latitude (Mumbai)"
+            },
+            {
+              "key": "longitude",
+              "value": "72.8777",
+              "description": "User's longitude (Mumbai)"
+            }
+          ]
+        },
+        "description": "Test sorting from a different city - schools will still be returned but farther away."
+      },
+      "response": []
+    },
+    {
+      "name": "Add School - Validation Fail (empty name)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"\",\n  \"address\": \"Some Address\",\n  \"latitude\": 28.5355,\n  \"longitude\": 77.2510\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/addSchool",
+          "host": ["{{base_url}}"],
+          "path": ["addSchool"]
+        },
+        "description": "Test validation - empty name should return 400."
+      },
+      "response": []
+    }
+  ]
+}
